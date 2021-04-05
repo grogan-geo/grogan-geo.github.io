@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+  <style>
+    #mapid { 
+      -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+      -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+      box-sizing: border-box;         /* Opera/IE 8+ */
 
+    /* Since this element now uses border-box sizing, the 10px of horizontal
+       padding will be drawn inside the 80% width */
+      width: 80%;
+      height: 500px;
+      padding: 0 10px;
+            
+    }
+  </style>
+</head>
+<html>
+  <body>
+
+    <h1>Lower Chesapeake Bay Bolide Impact Site</h1>
+    <p>In the Eocene Epoch, about 35 million years ago, a large bolide impact occurred at what is now Cape Charles, in the lower Chesapeake Bay of Virginia. The event resulted in a large crater, and deeply fractured bedrock in the area of impact.
+	<p>These salt-water filled fractures have led to contamination of fresh water aquifers along the Virginia bay shoreline. Material ejected from the crater was deposited regionally, forming unique rock strata as far away as Texas and Georgia.
+	<p>Subsidence into the crater appears to have influenced the course of the James and York Rivers, which turn abruptly toward the impact site as they approach the outer crater rim. Refer to cross-section for profile view (click map to hide).
+	<p>Salt-water saturating the highly fractured and porious crater filling formations is 1.5 times as salty as modern sea-water. Over-withdrawal from aquifers adjacent to the crater rim has resulted in salt-water intrusion and ground subsidence.</p>
+    <br>
+    <div id="mapid"></div>
+    <div id="latLon">37.2833333,-76.0166667</div>
+    
+    <script>
+      var mymap = L.map('mapid').setView([37.2833333,-76.0166667], 8);
+      
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+	id: 'mapbox/satellite-v9',
+    tileSize: 512,
+    zoomOffset: -1,
+	accessToken: 'pk.eyJ1IjoiODF0ZXJwIiwiYSI6ImNrbXdjcGcwMjA2cjcyb295cGwzdjJha3QifQ.t9OfQv598GJTQtY-LaRhOw'
+
+	}).addTo(mymap);
+      
+	  var myIcon = L.icon({
+		iconUrl: 'bolide_clipart_269402_v2.png',
+		iconSize: [500,500],
+		iconAnchor: [20,325],
+		popupAnchor: [1,-50]
+	  });
+	  
+	  L.marker([37.2833333,-76.0166667], {
+		icon: myIcon,
+		interactive: false
+	  }).addTo(mymap);
+
+      var circle = L.circle([37.2833333,-76.0166667], {
+        color: 'tan',
+		weight: 1,
+        fillColor: '#8a241a',
+        fillOpacity: 0.2,
+        radius: 42500
+      }).addTo(mymap);
+      
+      circle.bindPopup("approximate crater diameter is 85 km");
+	  
+	  var circle = L.circle([37.2833333,-76.0166667], {
+        color: 'orange',
+		weight: 2,
+        fillColor: '#f03',
+        fillOpacity: 0.2,
+        radius: 20000
+      }).addTo(mymap);
+      
+      circle.bindPopup("approximate central uplift diameter is 40 km");
+      
+	  var circle = L.circle([37.2833333,-76.0166667], {
+        color: 'red',
+        fillColor: '#17d826',
+        fillOpacity: 0.1,
+        radius: 3000
+      }).addTo(mymap);
+      
+      circle.bindPopup("estimated bolide diameter was 3 km, vaporized on impact");
+	  
+	  L.marker([37.535321, -77.437474]).addTo(mymap)
+		.bindPopup('Richmond')
+		.openPopup();
+		
+	  L.marker([36.852703, -75.981965]).addTo(mymap)
+		.bindPopup('Virginia Beach')
+		.openPopup();
+		
+	  L.marker([36.975678, -76.430000]).addTo(mymap)
+		.bindPopup('Newport News')
+		.openPopup();
+		
+	  L.marker([37.709356, -75.751280]).addTo(mymap)
+		.bindPopup('Onacock')
+		.openPopup();
+ 
+	  var polyline = L.polyline([
+		[37.194784, -76.690496],
+		[36.930000, -76.426856],
+		[37.006391, -76.256589]], {
+		color: 'pink',
+		weight: 2
+      }).addTo(mymap);
+
+      polyline.bindPopup("James River changes course at crater rim");	  
+
+	  var polyline = L.polyline([
+		[37.439429, -76.712466],
+		[37.238529, -76.498258],
+		[37.251647, -76.355454]], {
+		color: 'pink',
+		weight: 2
+      }).addTo(mymap);	 
+	  
+      polyline.bindPopup("York River changes course at crater rim");
+
+	  var polyline = L.polyline([
+		[37.500000, -77.100000],
+		[37.080000, -75.000000]], {
+		color: '#CA0AF7',
+		weight: 2
+      }).addTo(mymap);	 
+	  
+      polyline.bindPopup("line of cross-section, click yellow dot lower right to view <cr> (from USGS Fact Sheet 49-98, C. Wylie Poag, 1998)");
+
+	  var circle = L.circle ([36.350000, -73.400000], {
+		color: 'yellow',
+		weight: 2,
+        fillColor: 'yellow',
+        fillOpacity: 1.0,
+        radius: 3500
+      }).addTo(mymap);
+	  
+      popupContent = document.createElement("img");
+      popupContent.onload = function () {
+		circle.openPopup();
+      };
+      popupContent.src = "https://craterexplorer.ca/wp-content/uploads/2017/04/Odale-Chesapeake-schematic.jpg";
+      circle.bindPopup(popupContent, {
+		maxWidth: "auto"
+	  });
+
+      var polygon = L.polygon([
+		[37.677027, -76.270061],
+		[37.622390, -76.474573],
+		[37.570433, -76.569347],
+		[37.477991, -76.651826],
+		[37.361153, -76.673759],
+		[37.256020, -76.657541],
+		[37.094348, -76.533701],
+		[36.955242, -76.382916],
+		[36.894723, -76.333225],
+		[36.826325, -76.327991],
+		[36.893762, -76.308526],
+		[36.956202, -76.345493],
+		[37.091198, -76.486930],
+		[37.251920, -76.605133],
+		[37.350237, -76.621610],
+		[37.468046, -76.599539],
+		[37.542127, -76.533717],
+		[37.592199, -76.445837],
+		[37.644413, -76.325003]], {
+		color: 'aqua',
+		weight: 2.0,
+		fillColor: '7E8080',
+		fillOpacity: 0.8
+      }).addTo(mymap);	
+
+      polygon.bindPopup("Approx. saltwater-freshwater mixing zone shown here has advanced westward in some areas. <cr> Remediation efforts include reduced groundwater withdrawal.");
+	  
+	  function onMapHover(e) {
+        var newLatLng = String(e.latlng).replace("LatLng(", "").replace(")", "")
+        document.getElementById("latLon").innerHTML = newLatLng;
+      }
+
+      mymap.on('mousemove', onMapHover);
+     
+      
+    </script>
+  </body>
+</html>
